@@ -1,0 +1,856 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #c9d6ff;
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 20px;
+  margin-top: 0;
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  width: 768px;
+  max-width: 100%;
+  min-height: 480px;
+}
+
+.form-container {
+  position: relative;
+  height: 100%;
+  width: 50%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container input {
+  background-color: #eee;
+  border: none;
+  margin: 8px 0;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 100%;
+  outline: none;
+}
+
+.container form {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  height: 100%;
+}
+
+.container button {
+  background-color: #0575e6;
+  color: #fff;
+  font-size: 12px;
+  padding: 10px 45px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.image-container {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to bottom, #0575e6, #02298a, #021b79);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ilustrasi-login {
+  width: 60%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Navbar */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0000ff;
+  padding: 5px 40px; /* Increase padding for more width */
+  color: white;
+  width: 100%;
+  margin: 0; /* Remove margin */
+  position: relative;
+  top: 0;
+}
+
+/* Adjust navbar items */
+
+.navbar-logo .logo-img {
+    width: 10rem;  /* Adjust logo size */
+    height: auto;
+    margin-right: 10px;  /* Space between logo and text */
+}
+
+
+.navbar-nav a {
+  color: white;
+  margin-right: 30px; /* Increase the space between links */
+  text-decoration: none;
+}
+
+.navbar-extra a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Dashboard Content */
+/* Dashboard Content */
+.dashboard-content {
+  display: flex;
+  justify-content: center; /* Centers the content horizontally */
+  align-items: center; /* Centers the content vertically */
+  margin-top: 0;
+  width: 100%;
+  max-width: 1100px;
+  gap: 20px; /* Adds space between the image and text */
+}
+
+.dashboard-left {
+  flex: 1; /* Ensures the image takes up the remaining space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-left img {
+  max-width: 100%; /* Ensures the image fits within the container */
+  max-height: 400px; /* Limits the height of the image */
+  border-radius: 50px;
+  margin: 5%;
+}
+
+.dashboard-right {
+  flex: 1; /* Ensures the text takes up the remaining space */
+  text-align: left;
+  padding-left: 20px;
+}
+
+.dashboard-right h1 {
+  font-size: 28px;
+  color: #333;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* For smaller screens, ensure text and image stack properly */
+@media (max-width: 768px) {
+  .dashboard-content {
+    flex-direction: column; /* Stack the image and text */
+    align-items: center;
+  }
+
+  .dashboard-left img {
+    max-width: 80%; /* Adjust the image size for smaller screens */
+    max-height: 300px; /* Limit height for smaller screens */
+  }
+
+  .dashboard-right h1 {
+    font-size: 22px; /* Adjust text size for smaller screens */
+    text-align: center; /* Center the text on smaller screens */
+  }
+}
+
+.statistik {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.statistik h2 {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+}
+
+/* Statistik Cards */
+.statistik-cards {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.menu-card {
+  background-color: #00d0ff;
+  padding: 30px; /* Increase padding for larger cards */
+  border-radius: 15px; /* Make borders more rounded */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  width: 32%; /* Adjust width to make the cards bigger */
+  text-align: center;
+  transition: transform 0.3s ease; /* Add transition for hover effect */
+}
+
+.menu-card:hover {
+  transform: translateY(-10px); /* Slightly lift the card on hover */
+}
+
+.card-title {
+  font-size: 20px; /* Larger title font size */
+  font-weight: bold;
+  color: #333;
+}
+
+.card-text {
+  font-size: 36px; /* Increase font size for the number */
+  color: #333;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* For mobile responsive adjustments */
+@media (max-width: 768px) {
+  .menu-card {
+    width: 80%; /* Make the cards take up more width on smaller screens */
+    margin-bottom: 20px; /* Add spacing between cards */
+  }
+
+  .card-title {
+    font-size: 18px; /* Adjust title font size for smaller screens */
+  }
+
+  .card-text {
+    font-size: 28px; /* Adjust number size for smaller screens */
+  }
+}
+.search-section {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.search-form {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.search-form input {
+  padding: 15px;
+  width: 50%;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.search-form label {
+  margin-left: -30px;
+}
+
+.info-baru {
+  margin-top: 40px;
+  background-color: transparent;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1100px;
+}
+
+.info-baru-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.info-terbaru {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+td button {
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+td button:hover {
+  background-color: #0056b3;
+}
+
+.button-group-dashboard {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+/* Tambahkan efek perubahan warna saat tombol ditekan */
+.button-group-dashboard button:active {
+    transform: scale(0.98); /* Efek mengecil saat ditekan */
+}
+
+/* Kelas untuk tombol yang sudah diklik, untuk mengubah warna latar belakang */
+.button-group-dashboard button.clicked {
+    transition: background-color 0.3s ease;
+}
+
+/* Tombol btn-lihat */
+.btn-lihat {
+    background-color: #a7b4c0;
+}
+
+.btn-lihat:hover {
+    background-color: #888; /* Warna saat hover */
+}
+
+.btn-lihat:active {
+    background-color: #666; /* Warna saat ditekan */
+}
+
+/* Tombol btn-konfirmasi */
+.btn-konfirmasi {
+    background-color: #0575e6;
+}
+
+.btn-konfirmasi:hover {
+    background-color: #0454c4; /* Warna saat hover */
+}
+
+.btn-konfirmasi:active {
+    background-color: #003d91; /* Warna saat ditekan */
+}
+
+/* Tombol btn-tambah */
+.btn-tambah {
+    background-color: #28a745;
+}
+
+.btn-tambah:hover {
+    background-color: #2d8b39; /* Warna saat hover */
+}
+
+.btn-tambah:active {
+    background-color: #1f6b29; /* Warna saat ditekan */
+}
+
+/* Transisi untuk tombol-tombol */
+.button-group-dashboard button {
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button-group-dashboard button:hover {
+    transform: translateY(-3px); /* Efek sedikit terangkat saat hover */
+}
+
+/* Menyembunyikan form dengan kelas 'hidden' */
+.hidden {
+  display: none !important;
+}
+
+
+.footer {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #021f7e;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+
+.footer .links a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+.footer .credits {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Extracted component styles (moved from inline <style> blocks) */
+
+/* General helpers */
+.hidden {
+  display: none !important;
+}
+
+/* Search Section */
+.search-form-masuk {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.search-form-masuk input {
+  padding: 15px;
+  width: 750px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.search-form-masuk label {
+  margin-left: -30px;
+}
+
+/* Form pencarian / overlay used in barangkeluar */
+.form-pencarian {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  display: block;
+  gap: 20px;
+  width: 100%;
+}
+.form-pencarian input,
+.form-pencarian button {
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+.form-pencarian button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.form-pencarian button:hover {
+  background-color: #0056b3;
+}
+
+.konfirmasi-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #28a745;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto;
+}
+.konfirmasi-button:hover {
+  background: #218838;
+}
+
+/* Styling untuk select box */
+select {
+  width: 15%;
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  appearance: none; /* Menghilangkan tampilan default pada beberapa browser */
+  -webkit-appearance: none; /* Untuk Safari */
+  -moz-appearance: none; /* Untuk Firefox */
+  box-sizing: border-box; /* Agar padding tidak mempengaruhi lebar */
+  cursor: pointer; /* Ubah kursor saat select box dihover */
+  transition: all 0.3s ease; /* Animasi saat hover */
+}
+
+select option {
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  text-align: center;
+}
+
+select option:hover {
+  background-color: #e0f0ff; /* Ubah warna background saat hover pada option */
+}
+
+select option:checked {
+  background-color: #0575e6; /* Ubah warna background saat option dipilih */
+  color: #fff; /* Ubah warna teks saat option dipilih */
+}
+
+/* Styling untuk dropdown indicator (panah) */
+select::-ms-expand {
+  display: none; /* Menghapus panah default di IE */
+}
+
+/* Mengatur tampilan saat hover */
+select:hover {
+  border-color: #0575e6; /* Ubah warna border saat hover */
+  background-color: #e0f0ff; /* Ubah background saat hover */
+}
+
+/* Mengatur tampilan saat focus */
+select:focus {
+  outline: none;
+  border-color: #0575e6; /* Border biru saat focus */
+  box-shadow: 0 0 5px rgba(5, 117, 230, 0.5); /* Memberikan efek highlight saat focus */
+}
+
+/* Styling untuk select box di dalam form */
+form select {
+  margin-bottom: 15px; /* Tambahkan jarak bawah pada select */
+}
+
+/* Untuk select box yang lebih besar di dalam form */
+form .large-select {
+  width: 50%; /* Lebar select box lebih besar */
+  padding: 12px;
+  font-size: 16px;
+}
+
+/* Menyusun form di tengah overlay */
+.overlay {
+  display: none;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Transparansi lebih gelap */
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Form yang berada di tengah overlay */
+.form-penambahan-overlay {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative; /* Tombol close di dalam form */
+}
+
+/* Tombol Close dengan Ikon Lingkaran */
+.close-overlay {
+  position: absolute; /* Menggunakan absolute agar berada di pojok kanan atas */
+  top: 10px;
+  right: 10px;
+  background-color: #ff4d4d; /* Warna merah tombol */
+  color: white;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 20px; /* Ukuran ikon lebih besar */
+  border-radius: 50%; /* Tombol berbentuk lingkaran */
+  width: 40px; /* Lebar tombol */
+  height: 40px; /* Tinggi tombol */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.close-overlay:hover {
+  background-color: #ff1a1a; /* Warna lebih gelap saat hover */
+  transform: scale(1.1); /* Efek memperbesar saat hover */
+}
+
+.close-overlay:active {
+  background-color: #e60000; /* Warna saat ditekan */
+  transform: scale(0.95); /* Efek mengecil saat ditekan */
+}
+
+/* Ikon X menggunakan Font Awesome */
+.close-overlay i {
+  font-size: 20px;
+  color: white; /* Warna ikon X */
+}
+
+/* Form Input dan Button */
+.form-penambahan-overlay input,
+.form-penambahan-overlay select,
+.form-penambahan-overlay button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.form-penambahan-overlay button.submit {
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.form-penambahan-overlay button.submit:hover {
+  background-color: #218838;
+}
+
+/* Tabel Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+td a {
+  color: #007bff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+td a:hover {
+  color: #0056b3;
+}
+
+/* Form penambahan (barangmasuk) */
+.form-penambahan {
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  display: block;
+  gap: 20px;
+  width: 100%;
+}
+.form-penambahan input,
+.form-penambahan button {
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+.form-penambahan button {
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.form-penambahan button:hover {
+  background: #0056b3;
+}
+.tambah-barang-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 20px auto;
+  display: block;
+}
+.tambah-barang-button:hover {
+  background: #218838;
+}
+
+/* Small adjustments for profile page */
+.profile-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.profile-info {
+  flex: 1;
+  padding: 20px;
+  border-radius: 10px;
+  background: #f4f4f4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 20px;
+}
+.profile-img {
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  margin-right: 20px;
+}
+.button-profile-container {
+  text-align: right;
+  margin-top: 20px;
+}
+.button-profile-container .green-btn {
+  background: #28a745;
+  color: #fff;
+}
+.button-profile-container .blue-btn {
+  background: #007bff;
+  color: #fff;
+}
+
+/* Riwayat filter section (kept minimal) */
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.filter-section select,
+.filter-section input,
+.filter-section button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: 30%;
+}
+.print-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto;
+}
+.print-button:hover {
+  background: #218838;
+}
+
+.footer .credits a {
+  color: cyan;
+  text-decoration: none;
+}
+
+/* Login page extracted styles (from index.php) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+.login-bg {
+  background-color: #c9d6ff;
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+}
