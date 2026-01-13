@@ -214,9 +214,8 @@ if (isset($_GET['search'])) {
                         <a href='editbarang.php?kode_barang={$row['kode_barang']}'>Edit</a> |
                         <a href='barangmasuk.php?hapus={$row['kode_barang']}' onclick='return confirm(\"Apakah Anda yakin ingin menghapus barang ini?\")'>Hapus</a>
                         </td>";
-                    // Tombol untuk mencetak kode barang
-                    // Tombol untuk mencetak kode barang
-echo "<td><a href='cetak-kode.php?kode_barang={$row['kode_barang']}' target='_blank'>Cetak</a></td>";
+                    // Tombol untuk membuka modal cetak kode barang (overlay)
+                    echo "<td><button type='button' class='btn btn-confirm btn-sm' onclick=\"openCetakModal('{$row['kode_barang']}')\">Cetak</button></td>";
                     echo "</tr>";
                     $no++;
                 }
@@ -263,6 +262,33 @@ echo "<td><a href='cetak-kode.php?kode_barang={$row['kode_barang']}' target='_bl
             printWindow.document.close();
         }
 
+        // Open modal and populate preview area
+        function openCetakModal(kodeBarang) {
+            var preview = document.getElementById('cetakPreview');
+            if (!preview) return;
+            // Simple visual: show kode and large QR-like box
+            preview.innerHTML = '<h3>' + kodeBarang + '</h3>' +
+                                '<div style="margin-top:10px;padding:20px;border:2px dashed #222;display:inline-block;border-radius:6px;font-size:18px;letter-spacing:4px;">' + kodeBarang + '</div>';
+            var modalEl = document.getElementById('cetakModal');
+            var modal = new bootstrap.Modal(modalEl);
+            modal.show();
+        }
+
+        // Print only the preview content in a new window
+        function printCetakPreview() {
+            var preview = document.getElementById('cetakPreview');
+            if (!preview) return;
+            var w = window.open('', '_blank', 'width=600,height=400');
+            w.document.write('<html><head><title>Cetak Kode Barang</title>');
+            w.document.write('<style>body{font-family:Arial,Helvetica,sans-serif;text-align:center;padding:30px;} .box{padding:20px;border:2px dashed #222;display:inline-block;border-radius:6px;font-size:20px;letter-spacing:6px;}</style>');
+            w.document.write('</head><body>');
+            w.document.write('<h2>Kode Barang</h2>');
+            w.document.write('<div class="box">' + preview.textContent.trim() + '</div>');
+            w.document.write('<script>window.onload = function(){ window.print(); window.onafterprint = function(){ window.close(); } };<\/script>');
+            w.document.write('</body></html>');
+            w.document.close();
+        }
+
         // Fungsi untuk menyesuaikan tanggal dan jam masuk dengan waktu real-time
         window.onload = function() {
             // Set current date (tanggal_masuk) to today's date
@@ -277,5 +303,26 @@ echo "<td><a href='cetak-kode.php?kode_barang={$row['kode_barang']}' target='_bl
             document.getElementById('jamMasuk').value = timeString;
         }
     </script>
+    
+    <!-- Modal: Cetak Kode Barang -->
+    <div class="modal fade" id="cetakModal" tabindex="-1" aria-labelledby="cetakModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cetakModalLabel">Preview Kode Barang</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cetakPreview" class="text-center">
+                        <!-- populated by JS -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-confirm" onclick="printCetakPreview()">Cetak</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

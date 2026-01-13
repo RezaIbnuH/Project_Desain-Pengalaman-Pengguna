@@ -15,18 +15,18 @@ body {
   align-items: stretch; /* allow navbar and other full-width elements */
   justify-content: flex-start;
   min-height: 100vh;
-  padding: 20px;
+  padding: 0; /* full-bleed background */
   margin-top: 0;
 }
 
 .auth-container {
-  background-color: #fff;
-  border-radius: 30px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+  background: transparent; /* make login container match page background */
+  border-radius: 0;
+  box-shadow: none;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
-  width: 768px;
+  width: 100%;
   max-width: 100%;
   min-height: 480px;
 }
@@ -51,7 +51,7 @@ body {
   outline: none;
 }
 .auth-container form {
-  background-color: #fff;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -99,6 +99,10 @@ body {
   height: 100%;
   width: 100%;
   box-sizing: border-box;
+  /* ensure gradient covers the full viewport */
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 /* Navbar */
@@ -371,6 +375,22 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 1100px;
+}
+
+/* Profil layout: keep content centered but let background show through */
+.profil-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1rem 1.25rem;
+  background: transparent;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.foto-profil {
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .info-baru-title {

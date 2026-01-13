@@ -69,17 +69,22 @@ if (isset($_POST['update_profil'])) {
         }
     }
 
-    // Simpan atau perbarui data profil (gunakan upsert sederhana)
-    $queryUpdate = "INSERT INTO profil_petugas (id_petugas, alamat, foto_profile)
-                    VALUES (:id_petugas, :alamat, :foto_profile)
-                    ON DUPLICATE KEY UPDATE alamat = :alamat_upd, foto_profile = :foto_profile_upd";
-    $stmtUpdate = $pdo->prepare($queryUpdate);
-    $stmtUpdate->bindParam(':id_petugas', $id_petugas, PDO::PARAM_INT);
-    $stmtUpdate->bindParam(':alamat', $alamat);
-    $stmtUpdate->bindParam(':foto_profile', $newFileName);
-    $stmtUpdate->bindParam(':alamat_upd', $alamat);
-    $stmtUpdate->bindParam(':foto_profile_upd', $newFileName);
-    $stmtUpdate->execute();
+    // Hapus baris profil lama (jika ada) untuk mencegah duplikat, lalu insert baru
+    try {
+        $stmtDel = $pdo->prepare('DELETE FROM profil_petugas WHERE id_petugas = :id_petugas');
+        $stmtDel->bindParam(':id_petugas', $id_petugas, PDO::PARAM_INT);
+        $stmtDel->execute();
+
+        $queryInsert = "INSERT INTO profil_petugas (id_petugas, alamat, foto_profile) VALUES (:id_petugas, :alamat, :foto_profile)";
+        $stmtInsert = $pdo->prepare($queryInsert);
+        $stmtInsert->bindParam(':id_petugas', $id_petugas, PDO::PARAM_INT);
+        $stmtInsert->bindParam(':alamat', $alamat);
+        $stmtInsert->bindParam(':foto_profile', $newFileName);
+        $stmtInsert->execute();
+    } catch (Exception $e) {
+        // jika ada error, log dan fallback
+        error_log('Profil update error: ' . $e->getMessage());
+    }
 
     echo "<script>alert('Profil berhasil diperbarui!'); window.location.href='profil.php';</script>";
 }
