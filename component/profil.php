@@ -1,9 +1,12 @@
 <?php
-// Menghubungkan ke database
+// Auth and database
+include_once '../auth/check_auth.php';
+require_login();
 include_once '../config/database.php';
-session_start();
 
-// Pastikan petugas sudah login (cek sesi atau session)
+// Ambil id petugas dari session
+$id_petugas = $_SESSION['user_id'];
+
 // Ambil data profil petugas berdasarkan id_petugas
 $query = "SELECT * FROM petugas p LEFT JOIN profil_petugas pp ON p.id_petugas = pp.id_petugas WHERE p.id_petugas = :id_petugas";
 $stmt = $pdo->prepare($query);
@@ -11,22 +14,71 @@ $stmt->bindParam(':id_petugas', $id_petugas, PDO::PARAM_INT);
 $stmt->execute();
 $profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Determine which profile photo to display (server-side check)
+$displayPhoto = '../css/assets/logo.png'; // fallback
+if (!empty($profil['foto_profile'])) {
+    $candidate = __DIR__ . '/../uploads/' . $profil['foto_profile'];
+    if (is_file($candidate)) {
+        $displayPhoto = '../uploads/' . rawurlencode($profil['foto_profile']);
+    }
+}
+
 // Update profil petugas
 if (isset($_POST['update_profil'])) {
-    $alamat = $_POST['alamat'];
-    $foto_profile = $_FILES['foto_profile']['name'];
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($foto_profile);
+    $alamat = isset($_POST['alamat']) ? trim($_POST['alamat']) : null;
 
-    if ($foto_profile) {
-        move_uploaded_file($_FILES['foto_profile']['tmp_name'], $target_file);
+    // Ambil nama file lama, jika ada
+    $currentFile = $profil['foto_profile'] ?? null;
+    $newFileName = $currentFile;
+
+    // Proses upload jika ada file
+    if (!empty($_FILES['foto_profile']) && $_FILES['foto_profile']['error'] === UPLOAD_ERR_OK) {
+        $fileTmp = $_FILES['foto_profile']['tmp_name'];
+        $fileName = $_FILES['foto_profile']['name'];
+        $fileSize = $_FILES['foto_profile']['size'];
+
+        $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $allowed = ['jpg','jpeg','png','gif'];
+
+        if (!in_array($ext, $allowed)) {
+            echo "<script>alert('Tipe file tidak diizinkan. Hanya JPG/PNG/GIF.');</script>";
+        } elseif ($fileSize > 2 * 1024 * 1024) { // batas 2MB
+            echo "<script>alert('Ukuran file terlalu besar (maks 2MB).');</script>";
+        } else {
+            $uploadsDir = __DIR__ . '/../uploads/';
+            if (!is_dir($uploadsDir)) {
+                mkdir($uploadsDir, 0755, true);
+            }
+
+            // Nama file unik untuk mencegah konflik
+            $newFileName = $id_petugas . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+            $targetPath = $uploadsDir . $newFileName;
+
+            if (move_uploaded_file($fileTmp, $targetPath)) {
+                // Hapus file lama jika berbeda
+                if ($currentFile && $currentFile !== $newFileName) {
+                    $oldPath = $uploadsDir . $currentFile;
+                    if (is_file($oldPath)) {
+                        @unlink($oldPath);
+                    }
+                }
+            } else {
+                echo "<script>alert('Gagal mengunggah file.');</script>";
+                $newFileName = $currentFile;
+            }
+        }
     }
 
-    $queryUpdate = "UPDATE profil_petugas SET alamat = :alamat, foto_profile = :foto_profile WHERE id_petugas = :id_petugas";
+    // Simpan atau perbarui data profil (gunakan upsert sederhana)
+    $queryUpdate = "INSERT INTO profil_petugas (id_petugas, alamat, foto_profile)
+                    VALUES (:id_petugas, :alamat, :foto_profile)
+                    ON DUPLICATE KEY UPDATE alamat = :alamat_upd, foto_profile = :foto_profile_upd";
     $stmtUpdate = $pdo->prepare($queryUpdate);
+    $stmtUpdate->bindParam(':id_petugas', $id_petugas, PDO::PARAM_INT);
     $stmtUpdate->bindParam(':alamat', $alamat);
-    $stmtUpdate->bindParam(':foto_profile', $foto_profile);
-    $stmtUpdate->bindParam(':id_petugas', $id_petugas);
+    $stmtUpdate->bindParam(':foto_profile', $newFileName);
+    $stmtUpdate->bindParam(':alamat_upd', $alamat);
+    $stmtUpdate->bindParam(':foto_profile_upd', $newFileName);
     $stmtUpdate->execute();
 
     echo "<script>alert('Profil berhasil diperbarui!'); window.location.href='profil.php';</script>";
@@ -75,48 +127,85 @@ if (isset($_POST['update_password'])) {
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <a href="dashboard.php">Dashboard</a>
-        <a href="profil.php">Profil</a>
-        <a href="../auth/logout.php">Logout</a>
-    </nav>
+    <?php include_once __DIR__ . '/../includes/header.php'; ?>
 
     <h2>Profil Petugas</h2>
 
     <!-- Menampilkan profil petugas -->
     <div class="profil-container">
-        <img src="uploads/<?php echo $profil['foto_profile']; ?>" alt="Foto Profil" class="foto-profil" width="150">
-        <p><strong>Nama: </strong><?php echo $profil['nama_petugas']; ?></p>
-        <p><strong>Email: </strong><?php echo $profil['email_petugas']; ?></p>
-        <p><strong>Nomor Telepon: </strong><?php echo $profil['nomor_telepon']; ?></p>
-        <p><strong>Alamat: </strong><?php echo $profil['alamat']; ?></p>
+        <img src="<?php echo $displayPhoto; ?>" alt="Foto Profil" class="foto-profil" width="150">
+        <div class="profile-details">
+            <p><strong>Nama: </strong><?php echo htmlspecialchars($profil['nama_petugas']); ?></p>
+            <p><strong>Email: </strong><?php echo htmlspecialchars($profil['email_petugas']); ?></p>
+            <p><strong>Nomor Telepon: </strong><?php echo htmlspecialchars($profil['nomor_telepon']); ?></p>
+            <p><strong>Alamat: </strong><?php echo htmlspecialchars($profil['alamat']); ?></p>
+            <div class="btn-group" style="margin-top:12px;">
+                <button class="btn btn-add" type="button" data-bs-toggle="modal" data-bs-target="#profileModal">Edit Profil</button>
+                <button class="btn btn-confirm" type="button" data-bs-toggle="modal" data-bs-target="#passwordModal">Ganti Password</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Form untuk mengupdate profil -->
-    <h3>Update Profil</h3>
-    <form method="POST" enctype="multipart/form-data">
-        <label for="alamat">Alamat:</label>
-        <textarea name="alamat" id="alamat"><?php echo $profil['alamat']; ?></textarea><br>
+        <!-- Modal: Edit Profil -->
+        <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="profileModalLabel">Update Profil</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                        <label for="alamat" class="form-label">Alamat</label>
+                                        <textarea name="alamat" id="alamat" class="form-control"><?php echo htmlspecialchars($profil['alamat']); ?></textarea>
+                                </div>
+                                <div class="mb-3">
+                                        <label for="foto_profile" class="form-label">Foto Profil (JPG/PNG/GIF, maks 2MB)</label>
+                                        <input class="form-control" type="file" name="foto_profile" accept="image/*">
+                                </div>
+                                <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" name="update_profil" class="btn btn-primary">Simpan</button>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <label for="foto_profile">Foto Profil:</label>
-        <input type="file" name="foto_profile"><br>
-
-        <button type="submit" name="update_profil">Update Profil</button>
-    </form>
-
-    <!-- Form untuk mengganti password -->
-    <h3>Ganti Password</h3>
-    <form method="POST">
-        <label for="old_password">Password Lama:</label>
-        <input type="password" name="old_password" required><br>
-
-        <label for="new_password">Password Baru:</label>
-        <input type="password" name="new_password" required><br>
-
-        <label for="confirm_password">Konfirmasi Password Baru:</label>
-        <input type="password" name="confirm_password" required><br>
-
-        <button type="submit" name="update_password">Ganti Password</button>
-    </form>
+        <!-- Modal: Ganti Password -->
+        <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="passwordModalLabel">Ganti Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST">
+                                <div class="mb-3">
+                                        <label for="old_password" class="form-label">Password Lama</label>
+                                        <input type="password" name="old_password" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                        <label for="new_password" class="form-label">Password Baru</label>
+                                        <input type="password" name="new_password" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                        <label for="confirm_password" class="form-label">Konfirmasi Password Baru</label>
+                                        <input type="password" name="confirm_password" class="form-control" required>
+                                </div>
+                                <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" name="update_password" class="btn btn-primary">Simpan</button>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php include_once __DIR__ . '/../includes/footer.php'; ?>
+    <?php include_once __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>

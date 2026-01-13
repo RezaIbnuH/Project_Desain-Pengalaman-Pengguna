@@ -1,4 +1,6 @@
 <?php
+include_once '../auth/check_auth.php';
+require_login();
 include_once '../config/database.php';
 
 // Initialize the variable for the searched item
@@ -35,22 +37,7 @@ if (isset($_GET['kode_barang'])) {
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="#" class="navbar-logo">
-            <img src="../css/assets/logo.png" alt="Logo Titip Aman" class="logo-img">
-        </a>
-        <div class="navbar-nav">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="barangmasuk.php">Barang Masuk</a>
-            <a href="barangkeluar.php">Barang Keluar</a>
-            <a href="riwayat.php">Riwayat</a>
-        </div>
-        <div class="navbar-extra">
-            <a href="profil.php">Profil</a>
-            <a href="../auth/logout.php">Logout</a>
-        </div>
-    </nav>
+    <?php include_once __DIR__ . '/../includes/header.php'; ?>
 
     <!-- Form Pencarian dan Konfirmasi Pengambilan -->
     <div class="form-pencarian">
@@ -67,23 +54,16 @@ if (isset($_GET['kode_barang'])) {
             <p><strong>Tanggal Masuk:</strong> <span id="tanggal_masuk"><?php echo isset($barang['tanggal_masuk']) ? htmlspecialchars($barang['tanggal_masuk']) : 'Tidak Tersedia'; ?></span></p>
             <p><strong>Jam Masuk:</strong> <span id="jam_masuk"><?php echo isset($barang['jam_masuk']) ? htmlspecialchars($barang['jam_masuk']) : 'Tidak Tersedia'; ?></span></p>
             <p><strong>Petugas:</strong> <span id="petugas_id"><?php echo isset($barang['petugas_id']) ? htmlspecialchars($barang['petugas_id']) : 'Tidak Tersedia'; ?></span></p>
-            <button type="button" class="konfirmasi-button" onclick="redirectToKonfirmasi()">Konfirmasi Pengambilan</button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-confirm" onclick="redirectToKonfirmasi()">Konfirmasi</button>
+                <button type="button" class="btn btn-cancel" onclick="window.location.href='barangkeluar.php'">Batal</button>
+            </div>
         <?php else: ?>
             <p>Barang tidak ditemukan.</p>
         <?php endif; ?>
     </div>
 
-    <footer class="footer">
-        <div class="links">
-            <a href="#dashboard">Dashboard</a>
-            <a href="#masukkanbarang">Barang Masuk</a>
-            <a href="#barangkeluar">Barang Keluar</a>
-            <a href="#riwayat">Riwayat</a>
-        </div>
-        <div class="credits">
-            <p>Created by <a href="#">Reza Ibnu Hanifa</a>. | &copy; 2025 Titip Aman</p>
-        </div>
-    </footer>
+    <?php include_once __DIR__ . '/../includes/footer.php'; ?>
 
     <script>
         function searchBarang() {

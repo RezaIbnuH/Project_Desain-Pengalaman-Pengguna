@@ -12,14 +12,14 @@ body {
   background: linear-gradient(to right, #e2e2e2, #c9d6ff);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch; /* allow navbar and other full-width elements */
   justify-content: flex-start;
   min-height: 100vh;
   padding: 20px;
   margin-top: 0;
 }
 
-.container {
+.auth-container {
   background-color: #fff;
   border-radius: 30px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
@@ -40,8 +40,7 @@ body {
   flex-direction: column;
   justify-content: center;
 }
-
-.container input {
+.auth-container input {
   background-color: #eee;
   border: none;
   margin: 8px 0;
@@ -51,8 +50,7 @@ body {
   width: 100%;
   outline: none;
 }
-
-.container form {
+.auth-container form {
   background-color: #fff;
   display: flex;
   align-items: center;
@@ -61,8 +59,7 @@ body {
   padding: 0 40px;
   height: 100%;
 }
-
-.container button {
+.auth-container button {
   background-color: #0575e6;
   color: #fff;
   font-size: 12px;
@@ -106,26 +103,109 @@ body {
 
 /* Navbar */
 .navbar {
+  background-color: #0000ff;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  padding: 0 2rem;
+  top: 0;
+}
+
+/* Make navbar background full-bleed despite body padding */
+.navbar {
+  box-sizing: border-box;
+  width: calc(100% + 40px);
+  margin-left: -20px;
+  margin-right: -20px;
+}
+
+.navbar-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0000ff;
-  padding: 5px 40px; /* Increase padding for more width */
+  padding: 8px 40px;
+  max-width: 1100px; /* center content width */
+  margin: 0 auto; /* keep navbar content centered */
   color: white;
-  width: 100%;
-  margin: 0; /* Remove margin */
+}
+
+/* Profile dropdown in navbar */
+.nav-profile {
   position: relative;
-  top: 0;
+}
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff8a00, #e52e71);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+.profile-icon:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.25);
+}
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  color: #333;
+  min-width: 180px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  z-index: 10000;
+  opacity: 0;
+  transform: translateY(-8px);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 180ms;
+}
+.profile-dropdown.show {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+.profile-dropdown .profile-info {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+.profile-dropdown a {
+  display: block;
+  padding: 10px 12px;
+  color: #333;
+  text-decoration: none;
+}
+.profile-dropdown a:hover {
+  background: #f5f5f5;
+}
+
+.profile-icon-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 
 /* Adjust navbar items */
 
 .navbar-logo .logo-img {
-    width: 10rem;  /* Adjust logo size */
-    height: auto;
-    margin-right: 10px;  /* Space between logo and text */
+  width: 10rem; /* Adjust logo size */
+  height: auto;
+  margin-right: 10px; /* Space between logo and text */
 }
-
 
 .navbar-nav a {
   color: white;
@@ -362,75 +442,76 @@ td button:hover {
 
 /* Tambahkan efek perubahan warna saat tombol ditekan */
 .button-group-dashboard button:active {
-    transform: scale(0.98); /* Efek mengecil saat ditekan */
+  transform: scale(0.98); /* Efek mengecil saat ditekan */
 }
 
 /* Kelas untuk tombol yang sudah diklik, untuk mengubah warna latar belakang */
 .button-group-dashboard button.clicked {
-    transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 /* Tombol btn-lihat */
 .btn-lihat {
-    background-color: #a7b4c0;
+  background-color: #a7b4c0;
 }
 
 .btn-lihat:hover {
-    background-color: #888; /* Warna saat hover */
+  background-color: #888; /* Warna saat hover */
 }
 
 .btn-lihat:active {
-    background-color: #666; /* Warna saat ditekan */
+  background-color: #666; /* Warna saat ditekan */
 }
 
 /* Tombol btn-konfirmasi */
 .btn-konfirmasi {
-    background-color: #0575e6;
+  background-color: #0575e6;
 }
 
 .btn-konfirmasi:hover {
-    background-color: #0454c4; /* Warna saat hover */
+  background-color: #0454c4; /* Warna saat hover */
 }
 
 .btn-konfirmasi:active {
-    background-color: #003d91; /* Warna saat ditekan */
+  background-color: #003d91; /* Warna saat ditekan */
 }
 
 /* Tombol btn-tambah */
 .btn-tambah {
-    background-color: #28a745;
+  background-color: #28a745;
 }
 
 .btn-tambah:hover {
-    background-color: #2d8b39; /* Warna saat hover */
+  background-color: #2d8b39; /* Warna saat hover */
 }
 
 .btn-tambah:active {
-    background-color: #1f6b29; /* Warna saat ditekan */
+  background-color: #1f6b29; /* Warna saat ditekan */
 }
 
 /* Transisi untuk tombol-tombol */
 .button-group-dashboard button {
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    text-transform: uppercase;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .button-group-dashboard button:hover {
-    transform: translateY(-3px); /* Efek sedikit terangkat saat hover */
+  transform: translateY(-3px); /* Efek sedikit terangkat saat hover */
 }
 
 /* Menyembunyikan form dengan kelas 'hidden' */
 .hidden {
   display: none !important;
 }
-
 
 .footer {
   margin-top: 40px;
@@ -592,7 +673,7 @@ form .large-select {
 
 /* Menyusun form di tengah overlay */
 .overlay {
-  display: none;
+  /* overlay is visible by default; hide using .hidden */
   display: flex;
   position: fixed;
   top: 0;
@@ -603,6 +684,12 @@ form .large-select {
   z-index: 999;
   justify-content: center;
   align-items: center;
+}
+
+/* Hide overlay when .hidden is present */
+.overlay.hidden {
+  display: none !important;
+  visibility: hidden;
 }
 
 /* Form yang berada di tengah overlay */
@@ -635,7 +722,9 @@ form .large-select {
   display: none;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .close-overlay:hover {
@@ -684,7 +773,8 @@ table {
   margin-top: 20px;
 }
 
-th, td {
+th,
+td {
   padding: 12px;
   text-align: center;
   font-size: 16px;
@@ -836,6 +926,101 @@ td a:hover {
 .footer .credits a {
   color: cyan;
   text-decoration: none;
+}
+
+/* Standard button classes */
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+  transition:
+    background-color 120ms ease,
+    transform 80ms ease,
+    box-shadow 120ms ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Confirm / Save: green */
+.btn-confirm {
+  background: #28a745; /* green */
+}
+.btn-confirm:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+.btn-confirm:active {
+  background: #1e7e34;
+  transform: translateY(0);
+}
+.btn-confirm:focus {
+  outline: 3px solid rgba(40, 167, 69, 0.18);
+  outline-offset: 2px;
+}
+
+/* Edit: blue */
+.btn-add {
+  background: #0575e6; /* blue */
+}
+.btn-add:hover {
+  background: #0454c4;
+  transform: translateY(-1px);
+}
+.btn-add:active {
+  background: #034aa8;
+  transform: translateY(0);
+}
+.btn-add:focus {
+  outline: 3px solid rgba(5, 117, 230, 0.18);
+  outline-offset: 2px;
+}
+
+/* Cancel: gray */
+.btn-cancel {
+  background: #6c757d; /* gray */
+}
+.btn-cancel:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+.btn-cancel:active {
+  background: #4e555b;
+  transform: translateY(0);
+}
+.btn-cancel:focus {
+  outline: 3px solid rgba(108, 117, 125, 0.18);
+  outline-offset: 2px;
+}
+
+/* Delete / Danger: red */
+.btn-delete,
+.btn-danger {
+  background: #dc3545; /* red */
+}
+.btn-delete:hover,
+.btn-danger:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+.btn-delete:active,
+.btn-danger:active {
+  background: #b21f2d;
+  transform: translateY(0);
+}
+.btn-delete:focus,
+.btn-danger:focus {
+  outline: 3px solid rgba(220, 53, 69, 0.18);
+  outline-offset: 2px;
+}
+
+/* Small utility to align button groups */
+.btn-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 /* Login page extracted styles (from index.php) */

@@ -1,5 +1,7 @@
 <?php
-// Database connection
+// Auth and database
+include_once '../auth/check_auth.php';
+require_login();
 include_once '../config/database.php';
 
 // Initialize statistics variables
@@ -60,22 +62,7 @@ try {
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="#" class="navbar-logo">
-            <img src="../css/assets/logo.png" alt="Logo Titip Aman" class="logo-img">
-        </a>
-        <div class="navbar-nav">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="barangmasuk.php">Barang Masuk</a>
-            <a href="barangkeluar.php">Barang Keluar</a>
-            <a href="riwayat.php">Riwayat</a>
-        </div>
-        <div class="navbar-extra">
-            <a href="profil.php">Profil</a>
-            <a href="../auth/logout.php">Logout</a>
-        </div>
-    </nav>
+    <?php include_once __DIR__ . '/../includes/header.php'; ?>
 
     <!-- Konten Dashboard -->
     <div class="dashboard-content">
@@ -153,17 +140,7 @@ try {
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="links">
-            <a href="#dashboard">Dashboard</a>
-            <a href="#masukkanbarang">Barang Masuk</a>
-            <a href="#barangkeluar">Barang Keluar</a>
-            <a href="#riwayat">Riwayat</a>
-        </div>
-        <div class="credits">
-            <p>Created by <a href="#">Reza Ibnu Hanifa</a>. | &copy; 2025 Titip Aman</p>
-        </div>
-    </footer>
+    <?php include_once __DIR__ . '/../includes/footer.php'; ?>
 
     <!-- JavaScript -->
     <script>

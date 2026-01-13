@@ -1,4 +1,6 @@
 <?php
+include_once '../auth/check_auth.php';
+require_login();
 include_once '../config/database.php';
 
 // Handle filter options
@@ -73,23 +75,40 @@ if ($search) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Barang Masuk/Keluar</title>
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Modal overlay for printing preview */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .overlay.show { display: flex; }
+        .overlay-content {
+            background: #fff;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow: auto;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        .overlay-controls { text-align: right; margin-bottom: 10px; }
+        .overlay-controls button { margin-left: 8px; }
+
+        /* Print only the .print-area when printing */
+        @media print {
+            body * { visibility: hidden; }
+            .print-area, .print-area * { visibility: visible; }
+            .print-area { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="#" class="navbar-logo">
-            <img src="../css/assets/logo.png" alt="Logo Titip Aman" class="logo-img">
-        </a>
-        <div class="navbar-nav">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="barangmasuk.php">Barang Masuk</a>
-            <a href="barangkeluar.php">Barang Keluar</a>
-            <a href="riwayat.php">Riwayat</a>
-        </div>
-        <div class="navbar-extra">
-            <a href="profil.php">Profil</a>
-            <a href="../auth/logout.php">Logout</a>
-        </div>
-    </nav>
+    <?php include_once __DIR__ . '/../includes/header.php'; ?>
 
     <div class="riwayat-container">
         <h1 class="riwayat-header">Riwayat Barang Masuk/Keluar</h1>
@@ -148,21 +167,25 @@ if ($search) {
             </tbody>
         </table>
 
-        <!-- Tombol Cetak -->
-        <button class="print-button" onclick="window.print()">Cetak Riwayat</button>
+        <!-- Tombol Cetak (buka overlay) -->
+        <button class="print-button" onclick="openPrintOverlay()">Cetak Riwayat</button>
     </div>
 
-    <footer class="footer">
-        <div class="links">
-            <a href="#dashboard">Dashboard</a>
-            <a href="#masukkanbarang">Barang Masuk</a>
-            <a href="#barangkeluar">Barang Keluar</a>
-            <a href="#riwayat">Riwayat</a>
+    <!-- Overlay untuk preview cetak -->
+    <div id="printOverlay" class="overlay hidden" role="dialog" aria-hidden="true">
+        <div class="overlay-content">
+            <div class="overlay-controls">
+                <button type="button" onclick="closePrintOverlay()">Tutup</button>
+                <button type="button" onclick="printFromOverlay()">Cetak</button>
+            </div>
+            <div id="printArea" class="print-area">
+                <!-- Konten riwayat akan disalin ke sini -->
+            </div>
         </div>
-        <div class="credits">
-            <p>Created by <a href="#">Reza Ibnu Hanifa</a>. | &copy; 2025 Titip Aman</p>
-        </div>
-    </footer>
+    </div>
+    </div>
+
+    <?php include_once __DIR__ . '/../includes/footer.php'; ?>
 
     <script>
         function applyFilter() {
@@ -182,6 +205,39 @@ if ($search) {
                 url += "&search_box=" + searchBox;
             }
             window.location.href = url;
+        }
+
+        // Overlay print functions
+        function openPrintOverlay() {
+            const overlay = document.getElementById('printOverlay');
+            const printArea = document.getElementById('printArea');
+            // Clone the current table contents into the print area
+            const table = document.querySelector('.riwayat-container table');
+            if (table) {
+                // Create a header for printed report
+                const header = document.createElement('div');
+                header.innerHTML = '<h2>Riwayat Barang</h2><p>Dicetak: ' + new Date().toLocaleString() + '</p>';
+                // Clone table to avoid moving original
+                const tableClone = table.cloneNode(true);
+                printArea.innerHTML = '';
+                printArea.appendChild(header);
+                printArea.appendChild(tableClone);
+                overlay.classList.remove('hidden');
+                overlay.setAttribute('aria-hidden', 'false');
+            } else {
+                alert('Tabel riwayat tidak ditemukan.');
+            }
+        }
+
+        function closePrintOverlay() {
+            const overlay = document.getElementById('printOverlay');
+            overlay.classList.add('hidden');
+            overlay.setAttribute('aria-hidden', 'true');
+        }
+
+        function printFromOverlay() {
+            // Gunakan print media rule untuk hanya mencetak .print-area
+            window.print();
         }
     </script>
 

@@ -16,7 +16,7 @@ if (empty($_SESSION['csrf_token'])) {
     <title>Login Page</title>
 </head>
 <body class="login-bg">
-    <div class="container">
+    <div class="auth-container">
         <div class="form-container">
             <!-- Display error if login fails -->
             <?php if (isset($_GET['error'])): ?>

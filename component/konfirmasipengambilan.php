@@ -1,4 +1,6 @@
 <?php
+include_once '../auth/check_auth.php';
+require_login();
 include_once '../config/database.php';
 
 // Initialize the variable for the searched item
@@ -59,22 +61,7 @@ if (isset($_POST['confirm_pengambilan'])) {
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="#" class="navbar-logo">
-            <img src="../css/assets/logo.png" alt="Logo Titip Aman" class="logo-img">
-        </a>
-        <div class="navbar-nav">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="barangmasuk.php">Barang Masuk</a>
-            <a href="barangkeluar.php">Barang Keluar</a>
-            <a href="riwayat.php">Riwayat</a>
-        </div>
-        <div class="navbar-extra">
-            <a href="profil.php">Profil</a>
-            <a href="../auth/logout.php">Logout</a>
-        </div>
-    </nav>
+    <?php include_once __DIR__ . '/../includes/header.php'; ?>
 
     <!-- Konfirmasi Pengambilan Barang -->
     <div class="form-pencarian">
@@ -90,7 +77,10 @@ if (isset($_POST['confirm_pengambilan'])) {
             <form method="POST">
                 <label for="nama_pengambil">Nama Pengambil:</label>
                 <input type="text" id="nama_pengambil" name="nama_pengambil" required>
-                <button type="submit" name="confirm_pengambilan" class="konfirmasi-button">Konfirmasi Pengambilan</button>
+                <div class="btn-group">
+                    <button type="submit" name="confirm_pengambilan" class="btn btn-confirm">Konfirmasi Pengambilan</button>
+                    <button type="button" class="btn btn-cancel" onclick="window.location.href='barangkeluar.php'">Batal</button>
+                </div>
             </form>
         <?php else: ?>
             <p>Barang tidak ditemukan.</p>
@@ -102,17 +92,7 @@ if (isset($_POST['confirm_pengambilan'])) {
         <p><strong>Waktu Sekarang:</strong> <span id="realtime-waktu"></span></p>
     </div>
 
-    <footer class="footer">
-        <div class="links">
-            <a href="#dashboard">Dashboard</a>
-            <a href="#masukkanbarang">Barang Masuk</a>
-            <a href="#barangkeluar">Barang Keluar</a>
-            <a href="#riwayat">Riwayat</a>
-        </div>
-        <div class="credits">
-            <p>Created by <a href="#">Reza Ibnu Hanifa</a>. | &copy; 2025 Titip Aman</p>
-        </div>
-    </footer>
+    <?php include_once __DIR__ . '/../includes/footer.php'; ?>
 
     <script>
         // Update time every second to show real-time

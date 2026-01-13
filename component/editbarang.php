@@ -1,5 +1,7 @@
 <?php
-// Menghubungkan ke database
+// Auth and database
+include_once '../auth/check_auth.php';
+require_login();
 include_once '../config/database.php';
 
 // Menangani pencarian berdasarkan kode_barang
@@ -67,22 +69,7 @@ if (isset($_POST['edit_barang'])) {
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="dashboard.php" class="navbar-logo">
-            <img src="../css/assets/logo.png" alt="Logo Titip Aman" class="logo-img">
-        </a>
-        <div class="navbar-nav">
-            <a href="dashboard.php">Dashboard</a>
-            <a href="barangmasuk.php">Barang Masuk</a>
-            <a href="barangkeluar.php">Barang Keluar</a>
-            <a href="riwayat.php">Riwayat</a>
-        </div>
-        <div class="navbar-extra">
-            <a href="profil.php">Profil</a>
-            <a href="../auth/logout.php">Logout</a>
-        </div>
-    </nav>
+    <?php include_once __DIR__ . '/../includes/header.php'; ?>
 
     <!-- Form Edit Barang -->
     <div class="form-penambahan">
@@ -109,22 +96,13 @@ if (isset($_POST['edit_barang'])) {
                 <option value="Dibatalkan" <?php echo ($status == "Dibatalkan") ? 'selected' : ''; ?>>Dibatalkan</option>
             </select>
 
-            <!-- Tombol Perbarui -->
-            <button type="submit" name="edit_barang">Perbarui</button>
+            <div class="btn-group">
+                <button type="submit" name="edit_barang" class="btn btn-confirm">Perbarui</button>
+                <button type="button" class="btn btn-cancel" onclick="window.location.href='barangmasuk.php'">Batal</button>
+            </div>
         </form>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="links">
-            <a href="#dashboard">Dashboard</a>
-            <a href="#masukkanbarang">Barang Masuk</a>
-            <a href="#barangkeluar">Barang Keluar</a>
-            <a href="#riwayat">Riwayat</a>
-        </div>
-        <div class="credits">
-            <p>Created by <a href="#">Reza Ibnu Hanifa</a>. | &copy; 2025 Titip Aman</p>
-        </div>
-    </footer>
+    <?php include_once __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>
